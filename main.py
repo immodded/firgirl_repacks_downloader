@@ -2,6 +2,20 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+def extract_fuckingfast_links(file_path):
+    matching_links = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            line = line.strip()
+            if 'https://fuckingfast.co' in line:
+                # Optional: extract only the full URL using regex
+                import re
+                found_links = re.findall(r'https://fuckingfast\.co[^\s]*', line)
+                matching_links.extend(found_links)
+    return matching_links
+
+
+
 def get_direct_link(download_url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
@@ -23,8 +37,7 @@ def get_direct_link(download_url):
 
 def generate_html(input_file, output_file):
     try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            raw_links = [line.strip() for line in f if line.strip()]
+        raw_links = extract_fuckingfast_links(input_file)
 
         direct_links = []
         for link in raw_links:
@@ -86,8 +99,8 @@ def generate_html(input_file, output_file):
 if __name__ == "__main__":
     print("🚀 Welcome to the Ultimate fitgirl Repacks Downloader!")
     print("🔍 Let's turn your plain text file into a sleek HTML download page.\n  Right now this just support fuckingfast host.\n  ")
-    print("📝 Please provide the file containing list of links:")
-    input_file = input("📂 Enter input filename (see links_example.txt and create like that!): ").strip()
+    print("📝 Please provide the fuckingfast host save paste file  containing list of links:")
+    input_file = input("📂 Enter input filename (see links_example.txt): ").strip()
     print(f"✅ Got it!  Reading links from: {input_file}")
 
     output_file = input("💾 Enter output HTML filename (e.g., links.html): ").strip()
